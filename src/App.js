@@ -28,7 +28,7 @@ class App extends Component  {
     super(props);
 
     this.state = {
-      personalNumber:"",
+      personalNumber:null,
       phoneNumber: null,
       email: null,
       country: null,
@@ -79,7 +79,8 @@ class App extends Component  {
         formErrors.email = 
         emailRegex.test(value) || value.length === 0 ? "" : "invalid email address";
       break;
-      // no default
+      default:
+        break;
     }
     this.setState({ formErrors, [name]: value }, () => this.setLocalStorage());//Set state and local storage
   }
@@ -106,14 +107,16 @@ class App extends Component  {
     .catch(console.log);
 
     //Getting the local storage and displaying it in the input field 
+
+    if(localStorage.getItem('formErrors')){
+      let formErrors =JSON.parse(localStorage.getItem('formErrors'));
+      this.setState({formErrors})
+    }
     const personalNumber = localStorage.getItem('personalNumber');
     const phoneNumber = localStorage.getItem('phoneNumber');
     const email = localStorage.getItem('email');
     const country = localStorage.getItem('country');
     this.setState({ personalNumber, phoneNumber, country, email});
-    /*let formErrors =JSON.parse(localStorage.getItem('formErrors'));
-    formErrors = { ...this.state.formErrors }
-    this.setState({formErrors})*/
   }
 
   render() {
