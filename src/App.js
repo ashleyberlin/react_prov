@@ -178,8 +178,8 @@ class App extends Component  {
                   id='country' 
                   name='country'
                   value= {this.state.country || ''}
-                  onChange={this.handleChange}
-                  placeholder='select a country'>
+                  onChange={this.handleChange}>
+                  <option default>Select a country</option>
                   {this.state.countries}
                   </select>
                 </div>
