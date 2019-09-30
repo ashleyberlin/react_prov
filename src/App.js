@@ -17,7 +17,7 @@ const formValid = ({ formErrors, ...rest }) => {
 
   // validate the form was filled out
   Object.values(rest).forEach(val => {
-    val === null && (valid = false);
+    (val === null || val === 'null' || val=== '') && (valid = false);
   });
 
   return valid;
@@ -28,10 +28,10 @@ class App extends Component  {
     super(props);
 
     this.state = {
-      personalNumber:null,
-      phoneNumber: null,
-      email: null,
-      country: null,
+      personalNumber:'',
+      phoneNumber: '',
+      email: '',
+      country: '',
       formErrors: {
         personalNumber: "",
         phoneNumber: "",
@@ -90,7 +90,7 @@ class App extends Component  {
     const { personalNumber, phoneNumber, email, country, formErrors} = this.state;
     localStorage.setItem('personalNumber', personalNumber);
     localStorage.setItem('phoneNumber', phoneNumber);
-    localStorage.setItem('email', email);
+    localStorage.setItem('email', JSON.stringify(email));
     localStorage.setItem('country', country);
     localStorage.setItem('formErrors', JSON.stringify(formErrors));
     /*localStorage.setItem('savedState', JSON.stringify(this.state));*/
@@ -102,7 +102,7 @@ class App extends Component  {
       const formErrors =JSON.parse(localStorage.getItem('formErrors'));
       const personalNumber = localStorage.getItem('personalNumber');
       const phoneNumber = localStorage.getItem('phoneNumber');
-      const email = localStorage.getItem('email');
+      const email = JSON.parse(localStorage.getItem('email'));
       const country = localStorage.getItem('country');
       this.setState({ personalNumber, phoneNumber, country, email,formErrors})}
   }
