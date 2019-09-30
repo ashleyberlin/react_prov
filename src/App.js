@@ -43,8 +43,7 @@ class App extends Component  {
   }
 
 
-  handleSubmit = e => {
-
+  handleSubmit = e => {   
     if (formValid(this.state)) {
       console.log(`
         --SUCCESS--
@@ -55,6 +54,7 @@ class App extends Component  {
       `);
       localStorage.clear();
     } else {
+      e.preventDefault(); 
       console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
     }
   }
@@ -77,16 +77,16 @@ class App extends Component  {
         break;
       case "email":
         formErrors.email = 
-        emailRegex.test(value) || value.length === 0 ? "" : "invalid email address";
+        emailRegex.test(value) ? "" : "invalid email address";
       break;
       default:
         break;
     }
-    this.setState({ formErrors, [name]: value }, () => this.setLocalStorage());//Set state and local storage
+    this.setState({ formErrors, [name]: value }, () => this.setLocalStorage());
   }
 
-  setLocalStorage(){
-    
+  //Setting local storage
+  setLocalStorage(){  
     const { personalNumber, phoneNumber, email, country, formErrors} = this.state;
     localStorage.setItem('personalNumber', personalNumber);
     localStorage.setItem('phoneNumber', phoneNumber);
@@ -95,6 +95,18 @@ class App extends Component  {
     localStorage.setItem('formErrors', JSON.stringify(formErrors));
     /*localStorage.setItem('savedState', JSON.stringify(this.state));*/
   }
+ 
+  //Getting the local storage and displaying it in the input field   
+  getLocalStorage(){
+    if(localStorage.getItem('formErrors')){
+      const formErrors =JSON.parse(localStorage.getItem('formErrors'));
+      const personalNumber = localStorage.getItem('personalNumber');
+      const phoneNumber = localStorage.getItem('phoneNumber');
+      const email = localStorage.getItem('email');
+      const country = localStorage.getItem('country');
+      this.setState({ personalNumber, phoneNumber, country, email,formErrors})}
+  }
+
   //Fetching the countries from the API and displaying them as options
   componentDidMount() {
     fetch('https://restcountries.eu/rest/v2/all')
@@ -106,17 +118,7 @@ class App extends Component  {
     })
     .catch(console.log);
 
-    //Getting the local storage and displaying it in the input field 
-
-    if(localStorage.getItem('formErrors')){
-      let formErrors =JSON.parse(localStorage.getItem('formErrors'));
-      this.setState({formErrors})
-    }
-    const personalNumber = localStorage.getItem('personalNumber');
-    const phoneNumber = localStorage.getItem('phoneNumber');
-    const email = localStorage.getItem('email');
-    const country = localStorage.getItem('country');
-    this.setState({ personalNumber, phoneNumber, country, email});
+  this.getLocalStorage();
   }
 
   render() {
