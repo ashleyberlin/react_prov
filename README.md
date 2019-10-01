@@ -1,18 +1,5 @@
 ### `React Developer Coding Exercise`
 
-### `npm install`
-
-To install node modules.<br>
-
-### `npm start`
-
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-
 This is a solution that I created for a coding exercise I received. I was asked to build a form with the following:<br>
 
 • A valid Swedish social security number
@@ -33,6 +20,18 @@ Restrictions:
 is still there is the user refreshes the page.
 • Local storage needs to be emptied upon a successful Submit so that if the page is refreshed will display
 empty fields.
+
+### `npm install`
+
+To install node modules.<br>
+
+### `npm start`
+
+Runs the app in the development mode.<br>
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+The page will reload if you make edits.<br>
+You will also see any lint errors in the console.
 
 
 
