@@ -1,27 +1,6 @@
 import React, { Component } from "react";
-
+import { TestSSN, FormValid, NumberRegex, EmailRegex } from './validation/validation';
 import './App.css';
-
-const emailRegex = RegExp(
-  /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-);
-
-const numberRegex = RegExp(/^0[0-9].*$/);
-
-const formValid = ({ formErrors, ...rest }) => {
-  let valid = true;
-  //validate form errors being empty
-  Object.values(formErrors).forEach(val => {
-    val.length > 0 && (valid = false);
-  });
-
-  // validate the form was filled out
-  Object.values(rest).forEach(val => {
-    (val === null || val === 'null' || val=== '') && (valid = false);
-  });
-
-  return valid;
-};
 
 class App extends Component  {
   constructor(props) {
@@ -42,9 +21,8 @@ class App extends Component  {
     };
   }
 
-
   handleSubmit = e => {   
-    if (formValid(this.state)) {
+    if (FormValid(this.state)) {
       console.log(`
         --SUCCESS--
         Personal number: ${this.state.personalNumber}
@@ -69,15 +47,15 @@ class App extends Component  {
     switch (name) {
       case "personalNumber":
         formErrors.personalNumber =
-          value.length !== 10 ? "Invalid Personal Number" : "";
+          !TestSSN(value) ? "Invalid Personal Number" : "";
         break;
       case "phoneNumber":
         formErrors.phoneNumber =
-        !numberRegex.test(value) || value.length < 5 || value.length > 10  ? "Invalid Phone Number" : "";
+        !NumberRegex.test(value) || value.length < 5 || value.length > 10  ? "Invalid Phone Number" : "";
         break;
       case "email":
         formErrors.email = 
-        emailRegex.test(value) ? "" : "invalid email address";
+        EmailRegex.test(value) ? "" : "Invalid email address";
       break;
       default:
         break;
@@ -93,7 +71,6 @@ class App extends Component  {
     localStorage.setItem('email', JSON.stringify(email));
     localStorage.setItem('country', country);
     localStorage.setItem('formErrors', JSON.stringify(formErrors));
-    /*localStorage.setItem('savedState', JSON.stringify(this.state));*/
   }
  
   //Getting the local storage and displaying it in the input field   
@@ -107,8 +84,8 @@ class App extends Component  {
       this.setState({ personalNumber, phoneNumber, country, email,formErrors})}
   }
 
-  //Fetching the countries from the API and displaying them as options
   componentDidMount() {
+    //Fetching the countries from the API and displaying them as options 
     fetch('https://restcountries.eu/rest/v2/all')
     .then(res => res.json())
     .then((data) => {
@@ -118,7 +95,8 @@ class App extends Component  {
     })
     .catch(console.log);
 
-  this.getLocalStorage();
+    //populate the imputs on reload
+    this.getLocalStorage();
   }
 
   render() {
@@ -133,6 +111,7 @@ class App extends Component  {
                   <label htmlFor='personalNumber'>Personal Number</label>
                   <input 
                   value= {this.state.personalNumber || ''}
+                  pattern="[0-9]{10}" required
                   type='number' 
                   name='personalNumber'
                   className='{formErrors.personalNumber.length > 0 ? "error" : null}' 

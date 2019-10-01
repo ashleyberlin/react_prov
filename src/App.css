@@ -54,6 +54,9 @@
     border-radius: 5px;
     outline: none;
     border: 1px solid #cfcfcf;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+     appearance: none;
   }
   option {
     font-size: 1.2em;
@@ -99,10 +102,10 @@
   }
   
   .createAccount button {
-    color: #9b7ddc;
-    background-color: #fff;
-    border: 2px solid #9b7ddc;
+    color: #fff;
+    background-color: #9b7ddc;
     border-radius: 25px;
+    border: 2px solid #fff;
     width: 50%;
     margin-top: 1em;
     padding: 12px 0px;
@@ -110,12 +113,13 @@
     font-weight: bold;
     letter-spacing: 1px;
     margin-bottom: 0.25em;
+    cursor: pointer;
   }
   
   .createAccount button:hover {
-    background-color: #9b7ddc;
-    color: #fff;
-    border: 2px solid #fff;
+    background-color: #fff;
+    border: 2px solid #9b7ddc;
+    color: #9b7ddc;;
   }
 
   .createAccount button:focus {
