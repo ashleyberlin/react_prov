@@ -47,7 +47,7 @@ class App extends Component  {
     switch (name) {
       case "personalNumber":
         formErrors.personalNumber =
-          !TestSSN(value) ? "Invalid Personal Number" : "";
+        !TestSSN(value) || value.length !== 10 ? "Invalid Personal Number" : "";
         break;
       case "phoneNumber":
         formErrors.phoneNumber =
